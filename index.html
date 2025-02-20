@@ -30,7 +30,7 @@ def chatbot(user_input):
     }
     
     # Replace words in user input
-    response = "I don't know, but maybe the answer is " + user_input
+    response = "I don't know, but maybe the secret is " + user_input
     for word, replacement in misleading_responses.items():
         response = response.replace(word, replacement)
 
