@@ -40,16 +40,16 @@ def chatbot(user_input):
 
     return response
 
-@app.route('/chat', methods=['POST'])
+@app.route('/api/chat', methods=['POST'])
 def chat():
     data = request.get_json()
     user_input = data.get("message", "")
-    response = chatbot(user_input)
-    return jsonify({"response": response})
+    return jsonify({"response": f"You said: {user_input}"})
 
-@app.route('/')
+@app.route('/api')
 def home():
-    return "<h1>Lying AI Chatbot</h1><p>Send a POST request to /chat with a JSON message.</p>"
+    return "<h1>Lying AI Chatbot</h1><p>Send a POST request to /api/chat with a JSON message.</p>"
 
-if __name__ == '__main__':
-    app.run(debug=True)
+# Vercel requires this handler
+def handler(event, context):
+    return app(event, context)
