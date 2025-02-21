@@ -1,9 +1,12 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from flask_lambda import FlaskLambda
 import base64
 
 app = Flask(__name__)
 CORS(app)
+
+lambda_app = FlaskLambda(app)  # Convert Flask app to work with AWS Lambda
 
 # The real flag (hidden in code)
 real_flag = "isteCTF{ai_can_be_hacked}"
@@ -52,4 +55,4 @@ def home():
 
 # Vercel requires this handler
 def handler(event, context):
-    return app(event, context)
+    return lambda_app(event, context)
