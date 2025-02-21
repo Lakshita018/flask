@@ -1,12 +1,9 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from flask_lambda import FlaskLambda
 import base64
 
 app = Flask(__name__)
 CORS(app)
-
-lambda_app = FlaskLambda(app)  # Convert Flask app to work with AWS Lambda
 
 # The real flag (hidden in code)
 real_flag = "isteCTF{ai_can_be_hacked}"
@@ -47,12 +44,11 @@ def chatbot(user_input):
 def chat():
     data = request.get_json()
     user_input = data.get("message", "")
-    return jsonify({"response": f"You said: {user_input}"})
+    return jsonify({"response": chatbot(user_input)})
 
 @app.route('/api')
 def home():
     return "<h1>Lying AI Chatbot</h1><p>Send a POST request to /api/chat with a JSON message.</p>"
 
-# Vercel requires this handler
-def handler(event, context):
-    return lambda_app(event, context)
+if __name__ == "__main__":
+    app.run()
